@@ -1,0 +1,72 @@
+general:
+  stage: "semi"                                                   # Training mode. "ssl": self-supervised, "semi": semi-supervised.
+  output_path: "./output/data-degraded-mix"                       # Path to degraded speech data directory.
+  data_ssl:                                                       # Data configuration for self-supervised learning.
+    corpus_type: "multi-seen"                                     # Speaker mode. (single, multi-seen, multi-unseen). See preprocess.py for details.
+    source_path: "./data/data-degraded-mix"                       # Path to degraded speech data directory.
+    aux_path: null                                                # Path Corresponding clean speech data. It can be null for self-supervised learning.
+    preprocessed_path: "./preprocessed/data-degraded-mix"         # Path to preprocessed data.
+  data_semi:                                                      # Data configuration for semi-supervised learning.
+    corpus_type: "multi-seen"                                     # Speaker mode. (single, multi-seen, multi-unseen). See preprocess.py for details.# (single, multi-seen, multi-unseen)
+    source_path: "./data/jvs_22k-spk_aug"                         # Path to degraded speech data directory.
+    aux_path: "./data/jvs_22k-spk"                                # Path Corresponding clean speech data. It CANNOT be null for semi-supervised learning.
+    preprocessed_path: "./preprocessed/jvs_22k-spk"               # Path to preprocessed data.
+  semi_aug: True                                                  # Whether to use random data augmentation to generate artificial degraded speech data during semi-supervised learning.
+  test_wav_path: null
+  feature_type: "melspec"
+  hifigan_path: "./hifigan/hifigan_melspec_universal"
+  power_norm: True
+  use_gst: False
+  aug_noise_dir: /home/saeki/workspace/hdd1/TUT2017_22k/train
+  mix_channel: True
+
+preprocess:
+  n_val: 3
+  n_test: 10
+  sampling_rate: 22050
+  frame_length: 1024
+  frame_shift: 256
+  fft_length: 1024
+  fmin: 0
+  fmax: 8000
+  n_mels: 80
+  comp_factor: 1.0
+  min_magnitude: 0.00001
+  bitrate: "16k"
+  max_wav_value: 32768.0
+  segment_length: 2
+
+train:
+  batchsize: 4
+  epoch: 50
+  epoch_channel: 52 # disabled
+  multi_gpu_mode: False
+  num_workers: 4
+  learning_rate: 0.001
+  channel_kernel_size: 3
+  alpha: 0.01
+  beta: 0.001
+  grad_clip_thresh: 1.0
+  logger_step: 1000
+  load_pretrained: False
+  pretrained_path: null
+  fix_channel: False
+  early_stopping: False
+  multi_scale_loss:
+    use_linear: True
+    gamma: 1.0
+  feature_loss:
+    type: "mse"
+  perceptual_loss:
+    enabled: False
+    weight: 0.1
+  channel_loss:
+    enabled: False
+    weight: 0.1
+  use_semi_recons: False
+
+dual:
+  enable: True
+  config_path: ./configs/dual.yaml
+  use_noise_aug: False
+  noise_dir: /home/saeki/workspace/hdd1/TUT2017_22k/train
