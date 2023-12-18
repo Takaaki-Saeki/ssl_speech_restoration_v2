@@ -1,6 +1,6 @@
 # SelfRemaster: Self-Supervised Speech Restoration for Historical Audio Resources
 
-Implementation of [SelfRemaster: Self-Supervised Speech Restoration for Historical Audio Resources](https://arxiv.org/abs/2203.12937) (in *IEEE Access, 2024*).
+Implementation of SelfRemaster: Self-Supervised Speech Restoration for Historical Audio Resources (in *IEEE Access, 2024*).
 This repository includes the improved models of [the initial version presented in Interspeech 2022](https://github.com/Takaaki-Saeki/ssl_speech_restoration).
 
 ## Setup
